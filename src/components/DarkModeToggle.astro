@@ -70,35 +70,17 @@ const initialTheme = typeof window !== 'undefined'
 </style>
 
 <script>
-  // Initialize theme
-  (function() {
-    // Get the initial theme from the button's data attribute
-    const themeToggle = document.querySelector('.theme-toggle');
-    const initialTheme = themeToggle ? themeToggle.getAttribute('data-initial-theme') : 'light';
+  // Listen for the click event on the toggle button
+  const themeToggle = document.querySelector('.theme-toggle');
+  themeToggle?.addEventListener('click', function() {
+    // Get current theme from the attribute
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     
-    // Apply the initial theme
-    document.documentElement.setAttribute('data-theme', initialTheme);
+    // Apply the new theme
+    document.documentElement.setAttribute('data-theme', newTheme);
     
-    // Listen for the click event on the toggle button
-    themeToggle?.addEventListener('click', function() {
-      // Get current theme from the attribute
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      
-      // Apply the new theme
-      document.documentElement.setAttribute('data-theme', newTheme);
-      
-      // Save the preference to localStorage
-      localStorage.setItem('theme', newTheme);
-    });
-    
-    // Also listen for system preference changes
-    if (window.matchMedia) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        if (!localStorage.getItem('theme')) {
-          document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-        }
-      });
-    }
-  })();
+    // Save the preference to localStorage
+    localStorage.setItem('theme', newTheme);
+  });
 </script>
