@@ -1,0 +1,104 @@
+---
+const initialTheme = typeof window !== 'undefined' 
+  ? localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+  : 'light';
+---
+
+<div class="theme-toggle-wrapper">
+  <button class="theme-toggle" client:click aria-label="Toggle dark mode" data-initial-theme={initialTheme}>
+    <svg class="light-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="dark-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .theme-toggle-wrapper {
+    display: inline-block;
+  }
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem;
+    cursor: pointer;
+    font-family: "Doto", sans-serif;
+    transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 50%;
+  }
+  .theme-toggle:hover {
+    background-color: rgba(var(--gray), 0.1);
+  }
+  .light-icon,
+  .dark-icon {
+    position: absolute;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+  }
+  .light-icon {
+    opacity: 1;
+    visibility: visible;
+  }
+  .dark-icon {
+    opacity: 0;
+    visibility: hidden;
+  }
+  [data-theme="dark"] .light-icon {
+    opacity: 0;
+    visibility: hidden;
+  }
+  [data-theme="dark"] .dark-icon {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>
+
+<script>
+  // Initialize theme
+  (function() {
+    // Get the initial theme from the button's data attribute
+    const themeToggle = document.querySelector('.theme-toggle');
+    const initialTheme = themeToggle ? themeToggle.getAttribute('data-initial-theme') : 'light';
+    
+    // Apply the initial theme
+    document.documentElement.setAttribute('data-theme', initialTheme);
+    
+    // Listen for the click event on the toggle button
+    themeToggle?.addEventListener('click', function() {
+      // Get current theme from the attribute
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      // Apply the new theme
+      document.documentElement.setAttribute('data-theme', newTheme);
+      
+      // Save the preference to localStorage
+      localStorage.setItem('theme', newTheme);
+    });
+    
+    // Also listen for system preference changes
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        if (!localStorage.getItem('theme')) {
+          document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+      });
+    }
+  })();
+</script>
