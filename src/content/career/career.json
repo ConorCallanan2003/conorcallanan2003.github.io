@@ -1,0 +1,55 @@
+[
+  {
+    "type": "experience",
+    "title": "Software Engineer I",
+    "company": "Tines",
+    "dates": "2025 - Present",
+    "description": "Returned to Tines full-time to continue working on their no-code automation platform.",
+    "technologies": ["React JS", "Ruby on Rails", "TypeScript", "GraphQL"]
+  },
+  {
+    "type": "experience",
+    "title": "Full Stack Product Engineer",
+    "company": "Intercom",
+    "dates": "January–August 2025",
+    "description": "Worked as a full-stack developer on the Pricing and Packaging team at Intercom, which is building an AI-first customer service platform. Engineered frontend and backend changes to accelerate business growth. Owned the project end-to-end.",
+    "technologies": ["Ruby on Rails", "React JS", "Ember JS", "Stripe", "AWS", "Javascript/Typescript", "Tailwind CSS"]
+  },
+  {
+    "type": "experience",
+    "title": "AI/ML Engineer",
+    "company": "Provizio",
+    "dates": "June–August 2024",
+    "description": "Contributed to developing AI-powered radar systems for automotive safety and accident prevention. Designed and built pipelines for preparing training data for edge automotive AI/ML systems. Trained neural networks to detect objects from radar pointclouds using state-of-the-art architectures. Evaluated key performance metrics to identify future development paths.",
+    "technologies": ["Python", "PyTorch", "OpenCV", "Pandas", "Apache Airflow", "YOLO", "NumPy"]
+  },
+  {
+    "type": "experience",
+    "title": "Full Stack Product Engineer",
+    "company": "Tines",
+    "dates": "September–December 2023",
+    "description": "Worked across the full-stack to develop data visualization features at Tines, described as Ireland's fastest-growing tech startup and a recent unicorn. Developed Python pipelines for large scale data processing and visualization. Used Azure Cloud tools for further data processing and surfacing crucial business insights.",
+    "technologies": ["React JS", "Ruby on Rails", "Javascript/Typescript", "GraphQL", "CSS"]
+  },
+  {
+    "type": "experience",
+    "title": "Data Engineer",
+    "company": "Carne Group",
+    "dates": "June–September 2023",
+    "description": "Acquired expertise and transferable skills in the highly regulated finance/fund management industry at Carne Group, a global provider of fund management solutions. Developed Python pipelines for large scale data processing and visualization. Used Azure Cloud tools for further data processing and surfacing crucial business insights, utilizing Power BI.",
+    "technologies": ["Python", "Pandas", "SQL", "Azure Data Lake", "Azure Pipelines"]
+  },
+  {
+    "type": "project",
+    "title": "CTO & Co-founder - Second Chapter",
+    "description": "A platform that made it easy for students to buy and sell textbooks. Built a marketplace platform with an app published to the App Store and Play Store. The project included CI/CD pipelines, tenant provisioning, and an admin dashboard. The product was sunsetted due to a nationwide free schoolbook scheme.",
+    "technologies": []
+  },
+  {
+    "type": "project",
+    "title": "ML Team Lead - ULAS HIPR",
+    "company": "University of Limerick",
+    "description": "Led the ML development for the University of Limerick's rocketry team competing in EuRoC 2024, a highly competitive International student rocketry competition. Developed a custom ML framework to identify the landing zone using images from the rocket. Placed 5th of 20 teams (some of which had $1,000,000 budgets) in the final at the competition, overcoming minimal resources and funding.",
+    "technologies": ["PyTorch", "Python", "TFLite", "OpenCV", "Hardware Coral TPU"]
+  }
+]

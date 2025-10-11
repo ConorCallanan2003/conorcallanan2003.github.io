@@ -1,0 +1,35 @@
+<style>
+  .dot-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-image: radial-gradient(
+      circle,
+      var(--border-color) 2px,
+      transparent 2px
+    );
+    background-size: 40px 40px;
+    animation: pulse-grid 10s infinite ease-in-out;
+    z-index: 0;
+  }
+
+  @keyframes pulse-grid {
+    0% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+  }
+</style>
+
+<div class="dot-grid"></div>

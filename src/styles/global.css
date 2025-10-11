@@ -10,7 +10,8 @@
   --gray-dark: 64, 64, 64;
   
   /* Light theme colors */
-  --bg-color: rgb(var(--white));
+  --bg-color-rgb: var(--white);
+  --bg-color: rgb(var(--bg-color-rgb));
   --text-color: rgb(var(--black));
   --border-color: rgba(var(--black), 0.15);
   --link-color: rgb(var(--black));
@@ -19,7 +20,8 @@
 
 /* Dark theme colors */
 [data-theme="dark"] {
-  --bg-color: rgb(var(--black));
+  --bg-color-rgb: var(--black);
+  --bg-color: rgb(var(--bg-color-rgb));
   --text-color: rgb(var(--white));
   --border-color: rgba(var(--white), 0.15);
   --link-color: rgb(var(--white));

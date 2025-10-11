@@ -1,12 +1,29 @@
 ---
-const initialTheme = typeof window !== 'undefined' 
-  ? localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-  : 'light';
+const initialTheme =
+  typeof window !== "undefined"
+    ? localStorage.getItem("theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light")
+    : "light";
 ---
 
 <div class="theme-toggle-wrapper">
-  <button class="theme-toggle" client:click aria-label="Toggle dark mode" data-initial-theme={initialTheme}>
-    <svg class="light-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+  <button
+    class="theme-toggle"
+    client:click
+    aria-label="Toggle dark mode"
+    data-initial-theme={initialTheme}
+  >
+    <svg
+      class="light-icon"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
       <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -17,7 +34,15 @@ const initialTheme = typeof window !== 'undefined'
       <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
     </svg>
-    <svg class="dark-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <svg
+      class="dark-icon"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
     </svg>
   </button>
@@ -49,7 +74,9 @@ const initialTheme = typeof window !== 'undefined'
   .light-icon,
   .dark-icon {
     position: absolute;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease;
   }
   .light-icon {
     opacity: 1;
@@ -71,16 +98,16 @@ const initialTheme = typeof window !== 'undefined'
 
 <script>
   // Listen for the click event on the toggle button
-  const themeToggle = document.querySelector('.theme-toggle');
-  themeToggle?.addEventListener('click', function() {
+  const themeToggle = document.querySelector(".theme-toggle");
+  themeToggle?.addEventListener("click", function () {
     // Get current theme from the attribute
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "light" ? "dark" : "light";
+
     // Apply the new theme
-    document.documentElement.setAttribute('data-theme', newTheme);
-    
+    document.documentElement.setAttribute("data-theme", newTheme);
+
     // Save the preference to localStorage
-    localStorage.setItem('theme', newTheme);
+    localStorage.setItem("theme", newTheme);
   });
 </script>

@@ -1,0 +1,269 @@
+---
+import careerData from '../content/career/career.json';
+
+function getYear(dates) {
+  if (!dates) return '';
+  if (dates.includes('Present')) return 'Present';
+  const match = dates.match(/\d{4}/);
+  return match ? match[0] : '';
+}
+---
+
+<div class="timeline-container">
+  {
+    careerData.map((item, index) => (
+      <div class={`timeline-item ${index === 0 ? 'is-present' : ''}`}>
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">{getYear(item.dates)}</div>
+        <div class="timeline-content">
+          <h3>{item.title}</h3>
+          {item.company && <h4>{item.company}</h4>}
+          {item.dates && <p class="dates">{item.dates}</p>}
+          <p>{item.description}</p>
+          {item.technologies && item.technologies.length > 0 && (
+            <div class="technologies">
+              {item.technologies.map((tech) => (
+                <span class="tech-tag">{tech}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .timeline-container {
+    position: relative;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 2rem;
+  }
+
+  .timeline-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background-color: var(--border-color);
+    border-radius: 2px;
+  }
+
+  .timeline-container::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid var(--border-color);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 4rem;
+    width: 50%;
+  }
+
+  /* Left side items */
+  .timeline-item:nth-child(odd) {
+    right: 40px;
+    padding-right: 40px;
+    text-align: right;
+  }
+
+  /* Right side items */
+  .timeline-item:nth-child(even) {
+    left: 50%;
+    padding-left: 40px;
+  }
+
+  .timeline-dot {
+    content: '';
+    position: absolute;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--link-color);
+    border: 4px solid var(--bg-color);
+    border-radius: 50%;
+    z-index: 1;
+    transition: transform 0.2s ease-out;
+  }
+  
+  .timeline-item.is-present .timeline-dot {
+    background-color: #4ade80; /* A nice green color */
+    box-shadow: 0 0 0 4px #4ade80, 0 0 0 8px var(--bg-color);
+    animation: pulse 1.5s infinite cubic-bezier(0.66, 0, 0, 1);
+  }
+
+  .timeline-item:hover .timeline-dot {
+      transform: scale(1.2);
+  }
+  
+  @keyframes pulse {
+    to {
+      box-shadow: 0 0 0 12px rgba(74, 222, 128, 0), 0 0 0 8px var(--bg-color);
+    }
+  }
+
+  .timeline-item:nth-child(odd) .timeline-dot {
+    right: 0;
+    transform: translateX(50%);
+  }
+
+  .timeline-item:nth-child(even) .timeline-dot {
+    left: 0;
+    transform: translateX(-50%);
+  }
+  
+  .timeline-year {
+    position: absolute;
+    top: 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--text-color-secondary);
+    z-index: 1;
+    width: 65px; /* Increased width for "Present" */
+  }
+
+  .timeline-item.is-present .timeline-year {
+      color: #4ade80;
+      font-weight: bold;
+  }
+
+  .timeline-item:nth-child(odd) .timeline-year {
+    right: -85px; /* Adjusted for new width */
+    text-align: left;
+  }
+
+  .timeline-item:nth-child(even) .timeline-year {
+    left: -85px; /* Adjusted for new width */
+    text-align: right;
+  }
+
+  .timeline-content {
+    position: relative;
+    background-color: var(--bg-color-secondary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out, border-color 0.3s ease;
+  }
+  
+  .timeline-item.is-present .timeline-content {
+    border-color: var(--link-color);
+  }
+
+  .timeline-item.visible .timeline-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .timeline-content h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--heading-color);
+    font-size: 1.5rem;
+  }
+
+  .timeline-content h4 {
+    margin: 0 0 0.5rem 0;
+    font-weight: normal;
+    color: var(--text-color-secondary);
+  }
+
+  .timeline-content .dates {
+    font-style: italic;
+    color: var(--text-color-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .technologies {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .timeline-item:nth-child(odd) .technologies {
+    justify-content: flex-end;
+  }
+
+  .tech-tag {
+    background-color: var(--bg-color);
+    color: var(--link-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    border: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 768px) {
+    .timeline-container::before {
+      left: 10px;
+    }
+
+    .timeline-item {
+      width: 100%;
+      padding-left: 40px;
+      padding-right: 0;
+      text-align: left;
+    }
+
+    .timeline-item:nth-child(odd),
+    .timeline-item:nth-child(even) {
+      left: 0;
+      padding-left: 40px;
+      text-align: left;
+    }
+    
+    .timeline-item:nth-child(odd) .technologies,
+    .timeline-item:nth-child(even) .technologies {
+        justify-content: flex-start;
+    }
+
+    .timeline-dot {
+      left: 0;
+    }
+    
+    .timeline-item:nth-child(odd) .timeline-dot,
+    .timeline-item:nth-child(even) .timeline-dot {
+        left: 0;
+        transform: translateX(-50%);
+    }
+    
+    .timeline-year {
+        display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    timelineItems.forEach(item => {
+      observer.observe(item);
+    });
+  });
+</script>

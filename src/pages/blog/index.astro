@@ -1,96 +1,101 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
+import MainLayout from '../../layouts/MainLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
 const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				max-width: 700px;
-				width: calc(100% - 4rem);
-				margin: 0 auto;
-				padding: 3rem 1rem;
+<MainLayout title="Blog">
+  <style>
+    .post-list {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+    }
+
+    .post-item {
+      background-color: var(--bg-color-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+      text-align: left;
+      z-index: 1;
+      position: relative;
+    }
+
+    .post-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(var(--black), 0.1);
+    }
+
+    [data-theme="dark"] .post-item:hover {
+      box-shadow: 0 8px 20px rgba(var(--white), 0.1);
+    }
+
+    .post-item a {
+      text-decoration: none;
+      color: var(--text-color);
+    }
+
+    .post-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .post-content {
+      padding: 1.5rem;
+    }
+
+    .post-content h3 {
+      font-size: 1.5rem;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .post-content h3 a {
+      text-decoration: none;
+      color: var(--text-color);
+    }
+
+    .post-content h3 a:hover {
+      text-decoration: underline;
+    }
+
+    .post-content p {
+      color: var(--text-color-secondary);
+      font-size: 0.9rem;
+    }
+  </style>
+	<section>
+		<ul class="post-list">
+			{
+				posts.map((post) => (
+					<li class="post-item">
+            {post.data.heroImage && (
+              <a href={`/blog/${post.slug}/`}>
+                <img src={post.data.heroImage} alt="" />
+              </a>
+            )}
+            <div class="post-content">
+              <h3>
+                <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+              </h3>
+              <p>
+                <FormattedDate date={post.data.pubDate} />
+              </p>
+            </div>
+					</li>
+				))
 			}
-			ul {
-				display: flex;
-				flex-direction: column;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: 100%;
-				padding-bottom: 1.5rem;
-				transition: opacity 0.2s ease;
-			}
-			ul li * {
-				text-decoration: none;
-			}
-			ul li img {
-				margin-bottom: 0.75rem;
-				width: 100%;
-				height: auto;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0 0 0.25rem 0;
-				color: var(--text-color);
-				line-height: 1.2;
-				font-family: 'Doto', sans-serif;
-			}
-			.date {
-				margin: 0;
-				color: var(--text-color);
-				opacity: 0.7;
-			}
-			ul li:hover {
-				opacity: 0.8;
-			}
-			@media (max-width: 768px) {
-				ul li {
-					text-align: left;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+		</ul>
+	</section>
+</MainLayout>
