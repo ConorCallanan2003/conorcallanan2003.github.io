@@ -1,0 +1,61 @@
+---
+// src/components/embeds/YouTube.astro
+export interface Props {
+  title: string;
+  author_name: string;
+  thumbnail_url: string;
+  author_url: string;
+}
+
+const { title, author_name, thumbnail_url, author_url } = Astro.props;
+---
+
+<div class="yt-embed">
+  <div class="yt-text-content">
+    <p class="yt-title">{title}</p>
+    <a href={author_url} target="_blank" rel="noopener noreferrer" class="yt-author">{author_name}</a>
+  </div>
+  <div class="yt-thumbnail">
+    <img src={thumbnail_url} alt={`Thumbnail for ${title}`} />
+  </div>
+</div>
+
+<style>
+  .yt-embed {
+    background-color: var(--bg-color-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-family: sans-serif;
+    margin: 1.5em 0;
+  }
+  .yt-text-content {
+    flex-grow: 1;
+  }
+  .yt-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: var(--text-color);
+  }
+  .yt-author {
+    font-size: 0.9rem;
+    color: var(--text-color-secondary);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--border-color);
+  }
+  .yt-author:hover {
+    border-bottom-style: solid;
+  }
+  .yt-thumbnail img {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 0;
+  }
+</style>
