@@ -26,22 +26,7 @@
   --link-hover-color: rgba(var(--white), 0.7);
 }
 
-/* Geist Mono font family */
-@font-face {
-  font-family: "Geist Mono";
-  src: url("fonts/geist-mono/GeistMono-Regular.ttf") format("truetype");
-  font-display: swap;
-  font-weight: 400;
-  font-style: normal;
-}
 
-@font-face {
-  font-family: "Geist Mono";
-  src: url("fonts/geist-mono/GeistMono-Bold.ttf") format("truetype");
-  font-display: swap;
-  font-weight: 700;
-  font-style: normal;
-}
 
 /* Alternative: Add Google Fonts or other web fonts here if desired */
 /* For now, using a clean web-safe serif font stack for body text */
