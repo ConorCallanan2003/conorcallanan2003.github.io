@@ -17,6 +17,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image = FallbackImage } = Astro.props;
 ---
 
+<script is:inline>
+  // Check for saved theme or system preference
+  const savedTheme = localStorage.getItem('theme');
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+  
+  // Apply the initial theme
+  document.documentElement.setAttribute('data-theme', initialTheme);
+</script>
+
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -74,15 +84,4 @@ const { title, description, image = FallbackImage } = Astro.props;
   }
 </style>
 
-<!-- Dark mode initialization script -->
-<script>
-  (function() {
-    // Check for saved theme or system preference
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
-    
-    // Apply the initial theme
-    document.documentElement.setAttribute('data-theme', initialTheme);
-  })();
-</script>
+
