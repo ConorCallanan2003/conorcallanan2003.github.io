@@ -1,0 +1,170 @@
+---
+// Easy Reader mode toggle for comfortable reading
+---
+
+<div class="reader-toggle-wrapper">
+  <button
+    class="reader-toggle"
+    aria-label="Toggle easy reader mode"
+    title="Easy Reader Mode"
+  >
+    <svg
+      class="reader-icon"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <!-- Book icon -->
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+    </svg>
+    <span class="reader-status">
+      <span class="status-off">Reader Mode OFF</span>
+      <span class="status-on">Reader Mode ON</span>
+    </span>
+  </button>
+</div>
+
+<style>
+  .reader-toggle-wrapper {
+    display: inline-block;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 999;
+  }
+
+  .reader-toggle {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    font-family: "Geist Mono", sans-serif;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .reader-toggle:hover {
+    background-color: rgba(var(--gray), 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Active state styling */
+  :global(html[data-reader-mode="true"]) .reader-toggle {
+    background: var(--link-color);
+    color: var(--bg-color);
+    border-color: var(--link-color);
+  }
+
+  :global(html[data-reader-mode="true"]) .reader-toggle:hover {
+    opacity: 0.9;
+  }
+
+  /* Icon color change when active */
+  :global(html[data-reader-mode="true"]) .reader-icon {
+    stroke: var(--bg-color);
+  }
+
+  .reader-icon {
+    flex-shrink: 0;
+  }
+
+  .reader-status {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 125px;
+    height: 1.2em;
+  }
+
+  .status-off,
+  .status-on {
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .status-off {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .status-on {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  :global(html[data-reader-mode="true"]) .status-off {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  :global(html[data-reader-mode="true"]) .status-on {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @media (max-width: 768px) {
+    .reader-toggle-wrapper {
+      bottom: 1rem;
+      right: 1rem;
+    }
+
+    .reader-toggle {
+      padding: 0.65rem 1rem;
+      font-size: 0.8rem;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  function initReaderMode() {
+    const readerToggle = document.querySelector(".reader-toggle");
+
+    // Initialize reader mode from localStorage
+    const savedReaderMode = localStorage.getItem("reader-mode") === "true";
+    if (savedReaderMode) {
+      document.documentElement.setAttribute("data-reader-mode", "true");
+    }
+
+    // Toggle reader mode on click
+    readerToggle?.addEventListener("click", function () {
+      const currentMode = document.documentElement.getAttribute("data-reader-mode");
+      const newMode = currentMode === "true" ? "false" : "true";
+
+      document.documentElement.setAttribute("data-reader-mode", newMode);
+      localStorage.setItem("reader-mode", newMode);
+
+      // Dispatch custom event for other components
+      window.dispatchEvent(
+        new CustomEvent("reader-mode-changed", { detail: { enabled: newMode === "true" } })
+      );
+    });
+  }
+
+  // Initialize on load
+  initReaderMode();
+
+  // Re-initialize after Astro view transitions
+  document.addEventListener("astro:after-swap", initReaderMode);
+</script>

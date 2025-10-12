@@ -6,8 +6,6 @@ pubDate: 'Oct 12 2024'
 
 import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
-# Blog Writing Cheat Sheet
-
 This document contains quick references for writing blog posts with custom features and markdown syntax.
 
 ---
@@ -156,14 +154,13 @@ A ---|Label| B
 **Example - Line Chart:**
 <MermaidDiagram code={`xychart-beta
     title "Website Traffic Over Time"
-    x-axis [Week1, Week2, Week3, Week4, Week5, Week6]
+    x-axis ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6"]
     y-axis "Visitors" 0 --> 5000
     line [1200, 1800, 2400, 2100, 3200, 4500]
 `} />
 
 **Chart Syntax Notes:**
 - Charts use `xychart-beta` (experimental feature)
-- X-axis labels should avoid spaces (use "Week1" not "Week 1")
 - Y-axis format: `y-axis "Label" min --> max`
 - Can combine multiple `bar` and `line` datasets in one chart
 - Charts are theme-aware (black/white, matches light/dark mode)
@@ -241,6 +238,13 @@ function example() {
 }
 ```
 ````
+
+**Renders as:**
+```javascript
+function example() {
+  return "Hello World";
+}
+```
 
 ### Blockquotes
 ```

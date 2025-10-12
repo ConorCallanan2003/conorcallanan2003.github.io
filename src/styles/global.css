@@ -28,6 +28,26 @@
   --link-hover-color: rgba(var(--white), 0.7);
 }
 
+/* Easy Reader mode - Sepia theme for light mode */
+[data-theme="light"][data-reader-mode="true"] {
+  --bg-color-rgb: 244, 241, 222;  /* Warm sepia background */
+  --bg-color: rgb(var(--bg-color-rgb));
+  --text-color: rgb(51, 47, 44);  /* Dark brown text */
+  --border-color: rgba(51, 47, 44, 0.2);
+  --link-color: rgb(51, 47, 44);
+  --link-hover-color: rgba(51, 47, 44, 0.7);
+}
+
+/* Easy Reader mode - High contrast dark for dark mode */
+[data-theme="dark"][data-reader-mode="true"] {
+  --bg-color-rgb: 32, 32, 32;  /* Softer dark gray instead of pure black */
+  --bg-color: rgb(var(--bg-color-rgb));
+  --text-color: rgb(230, 230, 230);  /* Slightly softer white */
+  --border-color: rgba(230, 230, 230, 0.2);
+  --link-color: rgb(230, 230, 230);
+  --link-hover-color: rgba(230, 230, 230, 0.7);
+}
+
 
 
 /* Alternative: Add Google Fonts or other web fonts here if desired */
