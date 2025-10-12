@@ -12,10 +12,11 @@ function getYear(dates) {
 <div class="timeline-container">
   {
     careerData.map((item, index) => (
-      <div class={`timeline-item ${index === 0 ? 'is-present' : ''}`}>
+      <div class={`timeline-item ${index === 0 ? 'is-present' : ''} ${item.internship ? 'is-internship' : ''}`}>
         <div class="timeline-dot"></div>
         <div class="timeline-year">{getYear(item.dates)}</div>
         <div class="timeline-content">
+          {item.internship && <span class="internship-badge">Internship</span>}
           <h3>{item.title}</h3>
           {item.company && <h4>{item.company}</h4>}
           {item.dates && <p class="dates">{item.dates}</p>}
@@ -36,7 +37,7 @@ function getYear(dates) {
 <style>
   .timeline-container {
     position: relative;
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 2rem auto;
     padding: 2rem;
   }
@@ -159,9 +160,23 @@ function getYear(dates) {
     transform: translateY(20px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out, border-color 0.3s ease;
   }
-  
+
   .timeline-item.is-present .timeline-content {
     border-color: var(--link-color);
+  }
+
+  .internship-badge {
+    display: inline-block;
+    background-color: rgba(var(--gray), 0.15);
+    color: var(--text-color-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--border-color);
   }
 
   .timeline-item.visible .timeline-content {

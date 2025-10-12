@@ -1,6 +1,7 @@
 ---
 import FormattedDate from "../components/FormattedDate.astro";
 import MainLayout from "../layouts/MainLayout.astro";
+import TextSelectionShare from "../components/TextSelectionShare.astro";
 import type { CollectionEntry } from "astro:content";
 
 type Props = {
@@ -43,4 +44,5 @@ const {
       <slot />
     </div>
   </article>
+  <TextSelectionShare />
 </MainLayout>

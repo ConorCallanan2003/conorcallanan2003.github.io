@@ -13,7 +13,8 @@
     "company": "Intercom",
     "dates": "January–August 2025",
     "description": "Worked as a full-stack developer on the Pricing and Packaging team at Intercom, which is building an AI-first customer service platform. Engineered frontend and backend changes to accelerate business growth. Owned the project end-to-end.",
-    "technologies": ["Ruby on Rails", "React JS", "Ember JS", "Stripe", "AWS", "Javascript/Typescript", "Tailwind CSS"]
+    "technologies": ["Ruby on Rails", "React JS", "Ember JS", "Stripe", "AWS", "Javascript/Typescript", "Tailwind CSS"],
+    "internship": true
   },
   {
     "type": "experience",
@@ -21,7 +22,8 @@
     "company": "Provizio",
     "dates": "June–August 2024",
     "description": "Contributed to developing AI-powered radar systems for automotive safety and accident prevention. Designed and built pipelines for preparing training data for edge automotive AI/ML systems. Trained neural networks to detect objects from radar pointclouds using state-of-the-art architectures. Evaluated key performance metrics to identify future development paths.",
-    "technologies": ["Python", "PyTorch", "OpenCV", "Pandas", "Apache Airflow", "YOLO", "NumPy"]
+    "technologies": ["Python", "PyTorch", "OpenCV", "Pandas", "Apache Airflow", "YOLO", "NumPy"],
+    "internship": true
   },
   {
     "type": "experience",
@@ -29,7 +31,8 @@
     "company": "Tines",
     "dates": "September–December 2023",
     "description": "Worked across the full-stack to develop data visualization features at Tines, described as Ireland's fastest-growing tech startup and a recent unicorn. Developed Python pipelines for large scale data processing and visualization. Used Azure Cloud tools for further data processing and surfacing crucial business insights.",
-    "technologies": ["React JS", "Ruby on Rails", "Javascript/Typescript", "GraphQL", "CSS"]
+    "technologies": ["React JS", "Ruby on Rails", "Javascript/Typescript", "GraphQL", "CSS"],
+    "internship": true
   },
   {
     "type": "experience",
@@ -37,7 +40,8 @@
     "company": "Carne Group",
     "dates": "June–September 2023",
     "description": "Acquired expertise and transferable skills in the highly regulated finance/fund management industry at Carne Group, a global provider of fund management solutions. Developed Python pipelines for large scale data processing and visualization. Used Azure Cloud tools for further data processing and surfacing crucial business insights, utilizing Power BI.",
-    "technologies": ["Python", "Pandas", "SQL", "Azure Data Lake", "Azure Pipelines"]
+    "technologies": ["Python", "Pandas", "SQL", "Azure Data Lake", "Azure Pipelines"],
+    "internship": true
   },
   {
     "type": "project",

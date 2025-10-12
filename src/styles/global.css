@@ -74,6 +74,13 @@ main:not(.blog-main) {
   padding: 3rem 1rem;
 }
 
+/* Career page override */
+main:has(.career-page) {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+}
+
 h1,
 h2,
 h3,

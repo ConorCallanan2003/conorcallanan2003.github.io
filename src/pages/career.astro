@@ -4,15 +4,15 @@ import MainLayout from '../layouts/MainLayout.astro';
 ---
 
 <MainLayout title="Career Timeline">
-	<style>
-		.career-container {
-			padding: 2rem;
-		}
-		main {
-			max-width: 100% !important;
-		}
-	</style>
-	<div class="career-container">
+	<div class="career-page">
 		<CareerTimeline />
 	</div>
 </MainLayout>
+
+<style is:global>
+	.career-page {
+		max-width: 100% !important;
+		width: 100% !important;
+		padding: 0 !important;
+	}
+</style>
