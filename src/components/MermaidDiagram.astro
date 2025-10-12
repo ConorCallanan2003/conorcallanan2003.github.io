@@ -1,0 +1,245 @@
+---
+interface Props {
+  code: string;
+}
+
+const { code } = Astro.props;
+---
+
+<div class="mermaid-container">
+  <div class="mermaid-skeleton" data-mermaid-code={code}>
+    <div class="skeleton-content">
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line short"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mermaid-container {
+    margin: 2rem 0;
+    min-height: 200px;
+    position: relative;
+  }
+
+  .mermaid-skeleton {
+    background-color: rgba(var(--gray), 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+  }
+
+  .skeleton-content {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .skeleton-line {
+    height: 12px;
+    background: linear-gradient(
+      90deg,
+      rgba(var(--gray), 0.1) 25%,
+      rgba(var(--gray), 0.2) 50%,
+      rgba(var(--gray), 0.1) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .skeleton-line.short {
+    width: 60%;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  .mermaid-rendered {
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .mermaid-rendered :global(svg) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Force transparent backgrounds on edge labels */
+  .mermaid-rendered :global(.edgeLabel rect),
+  .mermaid-rendered :global(.edgeLabel path),
+  .mermaid-rendered :global(.label-container rect),
+  .mermaid-rendered :global(.label-container path),
+  .mermaid-rendered :global(g.edgeLabel > rect),
+  .mermaid-rendered :global(g.edgeLabel > path),
+  .mermaid-rendered :global(.edgeLabel),
+  .mermaid-rendered :global(rect.labelBkg),
+  .mermaid-rendered :global(path.labelBkg) {
+    fill: transparent !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    stroke: none !important;
+  }
+
+  /* Chart styling overrides */
+  .mermaid-rendered :global(.chart-background),
+  .mermaid-rendered :global(rect.chart-background) {
+    fill: transparent !important;
+  }
+
+  .mermaid-rendered :global(text) {
+    fill: var(--text-color) !important;
+  }
+
+  .mermaid-rendered :global(.bar),
+  .mermaid-rendered :global(rect.bar) {
+    fill: var(--text-color) !important;
+  }
+
+  .mermaid-rendered :global(.line),
+  .mermaid-rendered :global(path.line),
+  .mermaid-rendered :global(.plot path),
+  .mermaid-rendered :global(g.plot path) {
+    stroke: var(--text-color) !important;
+    stroke-width: 2px !important;
+    fill: none !important;
+  }
+
+  .mermaid-rendered :global(.tick line),
+  .mermaid-rendered :global(.domain) {
+    stroke: var(--text-color) !important;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  let mermaidModule = null;
+
+  async function renderMermaid(container, code, theme) {
+    if (!mermaidModule) {
+      mermaidModule = (await import("mermaid")).default;
+    }
+
+    // Initialize Mermaid with current theme
+    mermaidModule.initialize({
+      startOnLoad: false,
+      theme: "base",
+      themeVariables: {
+        primaryColor: "transparent",
+        primaryTextColor:
+          theme === "dark" ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
+        primaryBorderColor:
+          theme === "dark" ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
+        lineColor: theme === "dark" ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
+        secondaryColor: "transparent",
+        tertiaryColor: "transparent",
+        mainBkg: "transparent",
+        secondBkg: "transparent",
+        tertiaryBkg: "transparent",
+        nodeBkg: "transparent",
+        nodeBorder: theme === "dark" ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
+        clusterBkg: "transparent",
+        clusterBorder: theme === "dark" ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
+        edgeLabelBackground:
+          theme === "dark" ? "rgb(0, 0, 0)" : "rgb(255, 255, 255)",
+        labelBackground:
+          theme === "dark" ? "rgb(0, 0, 0)" : "rgb(255, 255, 255)",
+        labelColor: theme === "dark" ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
+        fontFamily: "Geist Mono, monospace",
+        fontSize: "14px",
+        // Chart-specific colors
+        xyChart: {
+          backgroundColor: "transparent",
+          titleColor: theme === "dark" ? "#ffffff" : "#000000",
+          xAxisTitleColor: theme === "dark" ? "#ffffff" : "#000000",
+          xAxisLabelColor: theme === "dark" ? "#ffffff" : "#000000",
+          xAxisTickColor: theme === "dark" ? "#ffffff" : "#000000",
+          xAxisLineColor: theme === "dark" ? "#ffffff" : "#000000",
+          yAxisTitleColor: theme === "dark" ? "#ffffff" : "#000000",
+          yAxisLabelColor: theme === "dark" ? "#ffffff" : "#000000",
+          yAxisTickColor: theme === "dark" ? "#ffffff" : "#000000",
+          yAxisLineColor: theme === "dark" ? "#ffffff" : "#000000",
+          plotColorPalette: theme === "dark" ? "#ffffff" : "#000000",
+        },
+      },
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: "basis",
+        defaultRenderer: "dagre",
+      },
+    });
+
+    try {
+      // Generate a valid ID (no dots or special chars)
+      const id = `mermaid-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
+      const { svg } = await mermaidModule.render(id, code);
+
+      // Replace content with rendered diagram
+      const wrapper = document.createElement("div");
+      wrapper.className = "mermaid-rendered";
+      wrapper.innerHTML = svg;
+      wrapper.setAttribute("data-mermaid-code", code);
+
+      if (container.parentElement) {
+        container.parentElement.replaceChild(wrapper, container);
+      }
+    } catch (error) {
+      console.error("Mermaid rendering error:", error);
+      container.innerHTML =
+        '<div style="padding: 2rem; text-align: center; color: var(--text-color-secondary);">Failed to render diagram</div>';
+    }
+  }
+
+  async function initMermaid() {
+    const theme =
+      document.documentElement.getAttribute("data-theme") || "light";
+
+    // Find all unrendered diagrams (skeletons)
+    const skeletons = document.querySelectorAll(".mermaid-skeleton");
+    for (const skeleton of skeletons) {
+      const code = skeleton.getAttribute("data-mermaid-code");
+      if (code) {
+        await renderMermaid(skeleton, code, theme);
+      }
+    }
+
+    // Re-render already rendered diagrams (for theme changes)
+    const rendered = document.querySelectorAll(".mermaid-rendered");
+    for (const diagram of rendered) {
+      const code = diagram.getAttribute("data-mermaid-code");
+      if (code) {
+        await renderMermaid(diagram, code, theme);
+      }
+    }
+  }
+
+  // Initialize when component loads
+  initMermaid();
+
+  // Re-render on theme change
+  window.addEventListener("theme-changed", initMermaid);
+
+  // Re-render on page navigation (for Astro view transitions)
+  document.addEventListener("astro:after-swap", initMermaid);
+</script>

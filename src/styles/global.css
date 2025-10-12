@@ -80,12 +80,16 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0 0 1.2rem 0;
+  margin: 3rem 0 1.2rem 0;
   color: var(--text-color);
   line-height: 1.2;
   font-weight: normal;
   font-family: "Geist Mono", sans-serif;
   letter-spacing: -0.02em;
+}
+
+h1 {
+  margin-top: 0;
 }
 
 /* Specific heading sizes */
@@ -253,4 +257,95 @@ hr {
   clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Tooltip styling */
+.tooltip-trigger {
+  position: relative;
+  display: inline;
+  cursor: help;
+  background-color: rgba(var(--black), 0.1);
+  padding: 0.1em 0.2em;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.tooltip-trigger:hover {
+  background-color: rgba(var(--black), 0.2);
+}
+
+[data-theme="dark"] .tooltip-trigger {
+  background-color: rgba(var(--white), 0.25);
+}
+
+[data-theme="dark"] .tooltip-trigger:hover {
+  background-color: rgba(var(--white), 0.35);
+}
+
+.tooltip-trigger::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background-color: var(--text-color);
+  color: var(--bg-color);
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  white-space: normal;
+  max-width: 250px;
+  width: max-content;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 1000;
+  font-family: 'Geist Mono', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tooltip-trigger::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(2px);
+  border: 6px solid transparent;
+  border-top-color: var(--text-color);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 1001;
+}
+
+.tooltip-trigger:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-12px);
+}
+
+.tooltip-trigger:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+/* Ensure tooltip doesn't get cut off at top of viewport */
+@media (max-width: 768px) {
+  .tooltip-trigger::after {
+    max-width: 200px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Ensure embed components don't appear above sticky header */
+.spotify-embed,
+.yt-embed {
+  position: relative;
+  z-index: 1;
+}
+
+.spotify-badge,
+.yt-badge {
+  z-index: 2;
 }

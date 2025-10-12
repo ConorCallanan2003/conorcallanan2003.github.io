@@ -51,6 +51,7 @@ const initialTheme =
 <style>
   .theme-toggle-wrapper {
     display: inline-block;
+    padding-right: 10px;
   }
   .theme-toggle {
     background: none;
@@ -109,5 +110,10 @@ const initialTheme =
 
     // Save the preference to localStorage
     localStorage.setItem("theme", newTheme);
+
+    // Dispatch custom event for other components to listen
+    window.dispatchEvent(
+      new CustomEvent("theme-changed", { detail: { theme: newTheme } })
+    );
   });
 </script>
