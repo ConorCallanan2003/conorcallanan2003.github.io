@@ -1,0 +1,78 @@
+---
+title: 'How Cerebras Achieved 100x Defect Tolerance in Wafer-Scale Computing'
+description: 'Exploring the innovative engineering approach that made the world''s largest chip commercially viable'
+pubDate: 'Jan 14 2026'
+---
+
+import MermaidDiagram from '../../../components/MermaidDiagram.astro';
+
+https://www.cerebras.ai/blog/100x-defect-tolerance-how-cerebras-solved-the-yield-problem
+
+Conventional semiconductor wisdom tells us that bigger chips inevitably mean worse manufacturing yields. Yet Cerebras Systems managed to create a processor **50 times larger** than traditional chips while maintaining comparable yields. How did they pull this off?
+
+## The Yield Problem
+
+In semiconductor manufacturing, **yield is everything**. Every silicon wafer has defects; microscopic imperfections that render portions of the chip unusable. When you're building conventional chips, you can work around this by dividing the wafer into many smaller chips. Some will have defects, but many will be perfect.
+
+Cerebras took the opposite approach: _one chip per wafer_. Their Wafer Scale Engine 3 spans an entire 300mm wafer with 970,000 AI cores. This should be economically unfeasible. A single defect anywhere on the wafer could theoretically ruin the entire chip.
+
+Beyond defects, there's a fundamental geometric problem: **wafers are circular, chips are rectangular**. A single large square die inherently wastes more edge area than many smaller squares that can tessellate to better approximate the circular boundary.
+
+Think of it like fitting square tiles into a circular pizza: one large square leaves huge gaps at the edges, while many small squares can nestle closer to the curved boundary.
+
+The geometric inefficiency is real. A square inscribed in a circle uses only ~64% of the circle's area, while smaller dies can be arranged to achieve 70-80% wafer utilization. Cerebras accepts this tradeoff—they lose more silicon to the wafer edges, but gain massive advantages in interconnect density and defect tolerance that we'll explore below.
+
+## The Counterintuitive Solution
+
+Rather than fighting the yield problem with better manufacturing, Cerebras embraced it through architecture. Their solution has two key components:
+
+### Tiny, Fault-Tolerant Cores
+
+Each AI core in the WSE-3 measures approximately **0.05mm²**—roughly 1% the size of an Nvidia H100 streaming multiprocessor. This miniaturization isn't about fitting more cores on the chip. It's about <mark>defect tolerance</mark>.
+
+When a manufacturing defect hits a WSE core, only 0.05mm² of silicon becomes unusable. The same defect in an H100 would disable approximately 6mm² of silicon—a **100x difference** in lost area per defect.
+
+| Chip Architecture | Core Size | Silicon Lost Per Defect |
+| ----------------- | --------- | ----------------------- |
+| Cerebras WSE-3    | 0.05mm²   | 0.05mm²                 |
+| Nvidia H100 SM    | ~6mm²     | ~6mm²                   |
+| **Advantage**     | **100x smaller** | **100x less waste** |
+
+### Intelligent Routing Architecture
+
+Small cores alone aren't enough. Cerebras implemented a sophisticated on-chip routing system that dynamically reconfigures around defects. When cores fail, the system automatically reroutes data through redundant communication pathways, maintaining computational capacity without massive spare core overhead.
+
+## The Numbers
+
+On TSMC's 5nm manufacturing node with approximately `0.001 defects per mm²`:
+
+**Traditional GPU approach** (72 H100-sized chips per wafer):
+- 59 projected defects
+- 361mm² of lost silicon
+- Multiple chips to test and package
+
+**Cerebras WSE-3** (one wafer-scale chip):
+- 46 projected defects
+- Only 2.2mm² of lost silicon
+- Single chip, 93% utilization
+
+<MermaidDiagram code={`xychart-beta
+    title "Silicon Lost to Defects (mm²)"
+    x-axis ["Traditional GPU", "Cerebras WSE-3"]
+    y-axis "Lost Silicon (mm²)" 0 --> 400
+    bar [361, 2.2]
+`} />
+
+The difference is stark: despite building a chip 50x larger, Cerebras loses **164x less silicon** to manufacturing defects.
+
+One caveat: this only accounts for defect losses. Cerebras's approach has a different tradeoff—fitting a single large square die onto a circular wafer means more edge loss compared to tiling many smaller rectangular dies. Traditional approaches utilize the circular wafer area more efficiently. But even accounting for this, Cerebras achieves 93% silicon utilization by disabling just 70,000 of 970,000 cores.
+
+## Why This Matters
+
+Cerebras didn't just solve a manufacturing problem. They demonstrated that wafer-scale computing, previously dismissed as economically impractical, becomes viable through architectural innovation rather than manufacturing perfection.
+
+> The yield problem hasn't disappeared. Cerebras just built around it.
+
+The lesson extends beyond AI accelerators. As we push against the limits of Moore's Law, this approach shows how rethinking fundamental assumptions about chip architecture can unlock previously impossible designs.
+
+**Key insight**: Sometimes the best solution to a manufacturing constraint is to design the constraint away entirely.

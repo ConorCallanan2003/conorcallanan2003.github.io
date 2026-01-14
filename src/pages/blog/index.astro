@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 
-const posts = (await getCollection('blog', ({ id }) => !id.startsWith('_'))).sort(
+const posts = (await getCollection('blog', ({ id }) => !id.startsWith('_') && !id.startsWith('drafts/'))).sort(
 	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
 ---
