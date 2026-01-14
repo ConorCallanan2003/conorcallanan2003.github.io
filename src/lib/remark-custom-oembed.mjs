@@ -29,7 +29,7 @@ async function getSpotifyAccessToken(clientId, clientSecret) {
 
     if (!response.ok) {
       console.warn(
-        `[Spotify API] Failed to get access token: ${response.statusText}`
+        `[Spotify API] Failed to get access token: ${response.statusText}`,
       );
       return null;
     }
@@ -49,7 +49,7 @@ async function getSpotifyAccessToken(clientId, clientSecret) {
 // Helper to extract Spotify ID and type from URL
 function parseSpotifyUrl(url) {
   const match = url.match(
-    /open\.spotify\.com\/(track|episode|show)\/([a-zA-Z0-9]+)/
+    /open\.spotify\.com\/(track|episode|show)\/([a-zA-Z0-9]+)/,
   );
   if (match) {
     return { type: match[1], id: match[2] };
@@ -89,6 +89,55 @@ const isLinkParagraph = (node) => {
   );
 };
 
+// Helper to extract OpenGraph tags from HTML
+async function fetchOpenGraphData(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.warn(
+        `[OpenGraph] Failed to fetch ${url}: ${response.statusText}`,
+      );
+      return null;
+    }
+
+    const html = await response.text();
+
+    // Extract OpenGraph meta tags using regex
+    const ogTags = {};
+    const metaTagRegex =
+      /<meta\s+property=["']og:([^"']+)["']\s+content=["']([^"']+)["']\s*\/?>/gi;
+    let match;
+
+    while ((match = metaTagRegex.exec(html)) !== null) {
+      ogTags[match[1]] = match[2];
+    }
+
+    // Also try reversed order (content before property)
+    const metaTagRegex2 =
+      /<meta\s+content=["']([^"']+)["']\s+property=["']og:([^"']+)["']\s*\/?>/gi;
+    while ((match = metaTagRegex2.exec(html)) !== null) {
+      if (!ogTags[match[2]]) {
+        ogTags[match[2]] = match[1];
+      }
+    }
+
+    if (Object.keys(ogTags).length === 0) {
+      return null;
+    }
+
+    return {
+      title: ogTags.title,
+      description: ogTags.description,
+      image: ogTags.image,
+      url: ogTags.url || url,
+      site_name: ogTags.site_name,
+    };
+  } catch (error) {
+    console.error(`[OpenGraph] Error fetching ${url}:`, error);
+    return null;
+  }
+}
+
 // The actual remark plugin
 const remarkCustomOembed = (options) => {
   const { providers, spotify } = options || {};
@@ -107,15 +156,31 @@ const remarkCustomOembed = (options) => {
         const linkNode = node.children[0];
         const url = linkNode.url;
 
+        let matchedProvider = false;
         for (const [providerHost, oembedUrl] of providers) {
           if (url.includes(providerHost)) {
             nodesToTransform.push({
               node, // The paragraph node to replace
               url, // The URL of the link
               oembedUrl, // The oEmbed endpoint URL template
+              useOpenGraph: false,
             });
+            matchedProvider = true;
             break; // Stop checking providers for this link
           }
+        }
+
+        // If no provider matched, try OpenGraph as fallback
+        if (
+          !matchedProvider &&
+          (url.startsWith("http://") || url.startsWith("https://"))
+        ) {
+          nodesToTransform.push({
+            node,
+            url,
+            oembedUrl: null,
+            useOpenGraph: true,
+          });
         }
       }
     });
@@ -123,15 +188,53 @@ const remarkCustomOembed = (options) => {
     // Second pass: perform the async transformations
     for (const item of nodesToTransform) {
       try {
+        // Handle OpenGraph fallback
+        if (item.useOpenGraph) {
+          const ogData = await fetchOpenGraphData(item.url);
+
+          if (ogData && ogData.title) {
+            const linkIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" style="color: var(--text-color);"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`;
+
+            const customHtml = `
+              <div class="og-embed" style="background-color: var(--bg-color-secondary); border: 2px solid var(--border-color); border-radius: 8px; padding: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; font-family: 'Geist Mono', sans-serif; margin: 1.5em 0; position: relative;">
+                ${ogData.site_name ? `<div class="og-badge" style="position: absolute; top: -28px; right: -28px; background-color: var(--bg-color-secondary); padding: 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; border: 2px solid var(--border-color); z-index: 100;">${ogData.site_name}</div>` : ""}
+                <div class="og-text-content" style="flex-grow: 1;">
+                  <a href="${item.url}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; border-bottom: none;">
+                    <p class="og-title" style="font-size: 1.1rem; font-weight: 600; margin: 0 0 0.25rem 0;">${ogData.title}</p>
+                  </a>
+                  ${ogData.description ? `<div class="og-description" style="font-size: 0.9rem; color: var(--text-color-secondary); margin-bottom: 0.5rem;">${ogData.description}</div>` : ""}
+                  <div class="og-url" style="font-size: 0.85rem; color: var(--text-color-secondary); display: flex; align-items: center; gap: 0.25rem;">
+                    ${linkIcon}
+                    <span>${new URL(item.url).hostname}</span>
+                  </div>
+                </div>
+                ${
+                  ogData.image
+                    ? `<div class="og-thumbnail">
+                  <a href="${item.url}" target="_blank" rel="noopener noreferrer" style="border-bottom: none;">
+                    <img src="${ogData.image}" alt="Preview for ${ogData.title}" style="max-width: 120px; max-height: 120px; object-fit: cover; border-radius: 4px; margin: 0; display: block;" />
+                  </a>
+                </div>`
+                    : ""
+                }
+              </div>
+            `;
+            item.node.type = "html";
+            item.node.value = customHtml;
+            item.node.children = [];
+          }
+          continue;
+        }
+
         const endpoint = item.oembedUrl.replace(
           "{url}",
-          encodeURIComponent(item.url)
+          encodeURIComponent(item.url),
         );
         const response = await fetch(endpoint);
 
         if (!response.ok) {
           console.warn(
-            `[oEmbed] Failed to fetch data for ${item.url}: ${response.statusText}`
+            `[oEmbed] Failed to fetch data for ${item.url}: ${response.statusText}`,
           );
           continue;
         }
@@ -181,7 +284,7 @@ const remarkCustomOembed = (options) => {
           if (spotifyInfo && spotify?.clientId && spotify?.clientSecret) {
             const token = await getSpotifyAccessToken(
               spotify.clientId,
-              spotify.clientSecret
+              spotify.clientSecret,
             );
             if (token) {
               try {
@@ -198,7 +301,7 @@ const remarkCustomOembed = (options) => {
               } catch (error) {
                 console.warn(
                   `[Spotify API] Error fetching data for ${item.url}:`,
-                  error
+                  error,
                 );
               }
             }
