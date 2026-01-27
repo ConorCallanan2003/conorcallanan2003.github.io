@@ -3,7 +3,17 @@ import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 
-const posts = (await getCollection('blog', ({ id }) => !id.startsWith('_') && !id.startsWith('drafts/'))).sort(
+const isDev = import.meta.env.DEV;
+
+const posts = (await getCollection('blog', ({ id }) => {
+	// Always exclude files starting with underscore
+	if (id.startsWith('_')) return false;
+	
+	// In dev mode, include drafts; in production, exclude them
+	if (id.startsWith('drafts/')) return isDev;
+	
+	return true;
+})).sort(
 	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
 ---

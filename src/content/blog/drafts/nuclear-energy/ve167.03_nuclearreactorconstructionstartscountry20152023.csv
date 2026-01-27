@@ -1,0 +1,31 @@
+#visualizingenergy.org
+#Contact: vizen@bu.edu
+#
+#Title: Nuclear reactor construction starts by country 2015-2023
+#Time span: 2015-2023
+#----------------------------------------------------------------
+#Variable: Nuclear reactor construction starts by country
+#Source: Global Nuclear Power Tracker; Global Energy Monitor; October 2023 release
+#Source link: https://globalenergymonitor.org/projects/global-nuclear-power-tracker/
+#Data accessed: 2024-02-23
+#================================================================
+﻿Country,Cumulative Capacity (MW)
+China,26584
+India,9400
+Turkey,4800
+South Korea,4200
+Egypt,3600
+United Kingdom,3440
+Russia,2830
+Japan,2756
+Bangladesh,2400
+France,1650
+United Arab Emirates,1417
+Brazil,1405
+Iran,1357
+Hungary,1265
+United States,1250
+Belarus,1194
+Slovakia,942
+North Korea,30
+Argentina,29
