@@ -238,6 +238,19 @@ pre > code {
   min-width: min-content;
 }
 
+/* Lists - tighten nested list spacing */
+ul, ol {
+  margin: 1em 0;
+  padding-left: 1.5em;
+}
+li > ul,
+li > ol {
+  margin: 0.2em 0;
+}
+li > p {
+  margin-bottom: 0.2em;
+}
+
 blockquote {
   padding: 0 0 0 1rem;
   margin: 1.8rem 0;
