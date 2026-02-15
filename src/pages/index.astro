@@ -3,7 +3,12 @@ import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import MainLayout from "../layouts/MainLayout.astro";
 
-const posts = (await getCollection("blog", ({ id }) => !id.startsWith('_') && !id.startsWith('drafts/')))
+const posts = (
+  await getCollection(
+    "blog",
+    ({ id }) => !id.startsWith("_") && !id.startsWith("drafts/"),
+  )
+)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 ---
@@ -20,17 +25,18 @@ const posts = (await getCollection("blog", ({ id }) => !id.startsWith('_') && !i
 
     /* Hero Section */
     .hero {
-      padding-top: 6rem;
-      padding-bottom: 6rem;
+      padding-top: 12rem;
+      padding-bottom: 18rem;
       text-align: center; /* Center hero content */
       position: relative;
       overflow: hidden;
     }
 
-                .hero-text {
-                  position: relative;
-                  z-index: 1;
-                }    .hero h1 {
+    .hero-text {
+      position: relative;
+      z-index: 1;
+    }
+    .hero h1 {
       font-size: 3.2rem;
       font-weight: bold;
       margin-bottom: 1rem;
@@ -115,6 +121,7 @@ const posts = (await getCollection("blog", ({ id }) => !id.startsWith('_') && !i
     .skill-card h3 {
       font-size: 1.5rem;
       margin-bottom: 1rem;
+      margin-top: 0rem;
     }
 
     .skill-card p {
@@ -208,12 +215,6 @@ const posts = (await getCollection("blog", ({ id }) => !id.startsWith('_') && !i
     <div class="hero-text">
       <h1>Conor</h1>
       <p class="subtitle">Software Engineer</p>
-      <p>
-        I build high-performance web applications and explore the frontiers of
-        AI/ML. With a background in full-stack product engineering at companies
-        like Tines and Intercom, I thrive on solving complex problems and
-        creating beautiful, user-centric software.
-      </p>
       <div class="cta-group">
         <a href="/career" class="cta-button cta-secondary">My Career</a>
         <a href="/blog" class="cta-button cta-primary">Read My Blog</a>
@@ -269,7 +270,7 @@ const posts = (await getCollection("blog", ({ id }) => !id.startsWith('_') && !i
   </section>
 
   <section class="featured-posts section">
-    <h2 class="section-title">Recent Posts</h2>
+    <h2 class="section-title">Recent Blog Posts</h2>
     <ul class="post-list">
       {
         posts.map((post) => (
