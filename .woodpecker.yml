@@ -1,0 +1,17 @@
+steps:
+  - name: build
+    image: node:20
+    commands:
+      - npm ci
+      - npm run build
+
+  - name: deploy
+    image: alpine
+    commands:
+      - apk add rsync openssh-client
+      - mkdir -p ~/.ssh
+      - echo "$SSH_KEY" > ~/.ssh/id_ed25519
+      - chmod 600 ~/.ssh/id_ed25519
+      - ssh-keyscan 84.46.249.232 >> ~/.ssh/known_hosts
+      - rsync -avz --delete dist/ root@84.46.249.232:/var/www/conchobhairoc
+    secrets: [ssh_key]
