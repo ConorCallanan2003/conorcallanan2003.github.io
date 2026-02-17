@@ -1,20 +1,5 @@
 steps:
 
-  - name: debug
-    image: alpine
-    environment:
-      SSH_KEY:
-        from_secret: ssh_key
-    commands:
-      - apk add rsync openssh-client
-      - mkdir -p ~/.ssh
-      - printf "%s\n" "$SSH_KEY" > ~/.ssh/id_ed25519
-      - chmod 600 ~/.ssh/id_ed25519
-      - head -1 ~/.ssh/id_ed25519
-      - wc -l ~/.ssh/id_ed25519
-      - ssh-keyscan 84.46.249.232 >> ~/.ssh/known_hosts
-      - ssh -vvv -o StrictHostKeyChecking=no root@84.46.249.232 echo "connected"
-
   - name: build
     image: oven/bun
     commands:
