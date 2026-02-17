@@ -122,6 +122,8 @@ import DarkModeToggle from "./DarkModeToggle.astro";
     font-size: 1.2em;
 
     font-weight: normal;
+
+    white-space: nowrap;
   }
 
   h2 a,
@@ -129,6 +131,8 @@ import DarkModeToggle from "./DarkModeToggle.astro";
     text-decoration: none;
 
     border-bottom: none;
+
+    padding: 0 !important;
   }
 
   nav {
@@ -213,38 +217,11 @@ import DarkModeToggle from "./DarkModeToggle.astro";
   }
 
   @media (max-width: 768px) {
-    nav {
-      flex-direction: column;
-
-      align-items: flex-start;
-
-      gap: 1.5rem;
-    }
-
     .nav-center {
-      text-align: left;
-
-      order: -1; /* Move links to the top on mobile */
+      display: none;
     }
 
-    .nav-left,
-    .nav-right {
-      width: 100%;
-    }
-
-    .header-controls {
-      width: 100%;
-
-      justify-content: space-between;
-    }
-
-    .social-links {
-      gap: 0.5rem;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .social-links {
+    .nav-right :global(a) {
       display: none;
     }
   }

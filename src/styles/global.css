@@ -275,9 +275,9 @@ hr {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  main {
+  main:not(.blog-main) {
     width: calc(100% - 2rem);
-    padding: 2rem 1rem;
+    padding: 0.25rem 1rem;
   }
   h1 { font-size: 1.8em; }
   h2 { font-size: 1.6em; }
