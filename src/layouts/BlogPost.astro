@@ -7,15 +7,16 @@ import type { CollectionEntry } from "astro:content";
 
 type Props = {
   post: CollectionEntry<"blog">;
+  robots?: string;
 };
 
-const { post } = Astro.props;
+const { post, robots } = Astro.props;
 const {
   data: { title, description, pubDate, updatedDate, heroImage },
 } = post;
 ---
 
-<MainLayout title={title} description={description}>
+<MainLayout title={title} description={description} robots={robots}>
   <style>
     background-color: transparent;
     z-index: 10;

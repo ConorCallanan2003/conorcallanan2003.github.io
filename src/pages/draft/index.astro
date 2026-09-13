@@ -1,0 +1,119 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+const posts = (await getCollection('blog', ({ id }) => {
+	// Only draft posts
+	return id.startsWith('drafts/');
+})).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const draftSlug = (id: string) => id.replace(/^drafts\//, '').replace(/\.mdx?$/, '');
+---
+
+<MainLayout title="Drafts" description="Unpublished draft posts (not indexed)" robots="noindex, nofollow">
+	<style>
+		.post-list {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			gap: 2rem;
+			list-style: none;
+			padding: 0;
+		}
+
+		.post-item {
+			background-color: var(--bg-color-secondary);
+			border: 1px solid var(--border-color);
+			border-radius: 12px;
+			overflow: hidden;
+			transition:
+				transform 0.3s ease,
+				box-shadow 0.3s ease;
+			text-align: left;
+			z-index: 1;
+			position: relative;
+		}
+
+		.post-item:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 20px rgba(var(--black), 0.1);
+		}
+
+		[data-theme="dark"] .post-item:hover {
+			box-shadow: 0 8px 20px rgba(var(--white), 0.1);
+		}
+
+		.post-item a {
+			text-decoration: none;
+			color: var(--text-color);
+		}
+
+		.post-item img {
+			width: 100%;
+			height: 200px;
+			object-fit: cover;
+		}
+
+		.post-content {
+			padding: 1.5rem;
+		}
+
+		.post-content h3 {
+			font-size: 1.5rem;
+			margin: 0 0 0.5rem 0;
+		}
+
+		.post-content h3 a {
+			text-decoration: none;
+			color: var(--text-color);
+		}
+
+		.post-content h3 a:hover {
+			text-decoration: underline;
+		}
+
+		.post-content p {
+			color: var(--text-color-secondary);
+			font-size: 0.9rem;
+		}
+
+		.draft-badge {
+			display: inline-block;
+			font-size: 0.75rem;
+			font-weight: 700;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+			border: 1px solid var(--border-color);
+			border-radius: 999px;
+			padding: 0.15rem 0.6rem;
+			margin-bottom: 0.5rem;
+		}
+	</style>
+	<section>
+		<p><span class="draft-badge">Draft — not indexed</span></p>
+		<ul class="post-list">
+			{
+				posts.map((post) => (
+					<li class="post-item">
+						{post.data.heroImage && (
+							<a href={`/draft/${draftSlug(post.id)}/`}>
+								<img src={post.data.heroImage} alt="" />
+							</a>
+						)}
+						<div class="post-content">
+							<h3>
+								<a href={`/draft/${draftSlug(post.id)}/`}>{post.data.title}</a>
+							</h3>
+							<p>
+								<FormattedDate date={post.data.pubDate} />
+							</p>
+						</div>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</MainLayout>

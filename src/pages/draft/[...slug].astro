@@ -4,21 +4,14 @@ import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog', ({ id }) => {
-		// Drafts are served under /draft/, never under /blog/
-		if (id.startsWith('drafts/')) return false;
-
-		// Always exclude files starting with underscore
-		if (id.startsWith('_')) return false;
-		
-		return true;
+		// Only draft posts, in every environment (dev and production build)
+		return id.startsWith('drafts/');
 	});
-	
-	return posts
-		.filter((post) => post.slug)
-		.map((post) => ({
-			params: { slug: post.slug },
-			props: post,
-		}));
+
+	return posts.map((post) => ({
+		params: { slug: post.id.replace(/^drafts\//, '').replace(/\.mdx?$/, '') },
+		props: post,
+	}));
 }
 type Props = CollectionEntry<'blog'>;
 
@@ -26,6 +19,6 @@ const post = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BlogPost post={post}>
+<BlogPost post={post} robots="noindex, nofollow">
 	<Content />
 </BlogPost>

@@ -24,7 +24,9 @@ const customOembedConfig = {
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://conorcallanan2003.github.io',
-	integrations: [mdx(), sitemap()],
+	integrations: [mdx(), sitemap({
+		filter: (page) => !page.includes('/draft'),
+	})],
 	markdown: {
 		remarkPlugins: [
 			[remarkCustomOembed, customOembedConfig],

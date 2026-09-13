@@ -1,0 +1,95 @@
+---
+title: 'What could go wrong?'
+description: 'Despite its (sort of) healthy appearance, the US economy is facing some challenges...'
+pubDate: 'Sep 13 2026'
+---
+Despite its (sort of) healthy appearance, the US economy is facing some challenges...
+---
+### The war in Iran
+
+The US is currently engaged in what some (me) would describe as an ill-advised conflict with an adversary that has previously proven themselves to be unexpectedly resilient, strategically competant, and borderline petty (just ask Jimmy Carter why he never got to welcome the hostages home). 
+
+They're currently stuck in stalemate, with the Strait of Hormuz closed and 20% of the world's oil supply consequently cut off. For the last 6 months, the message has been that Iran are on their knees and the strait would open any day now. That unfortunately does not look likely. 
+
+The US are thought to have spent approx $40bn on this conflict so far. They have resorted to redirect Patriot Missile supplies from  Ukraine to protect their gulf military bases. They have imposed their own blockade on the strait. They have levied what were supposed to be suffocating economic sanctions on the Islamic Republic. As an outside observer, it seems as though they have no cards left to play. *I'm excluding nuclear weapons here based on the flimsy assumption that the US wouldn't cross that line (at least in this context). *
+
+Iran **is** in a weak position. Their economy is weak, their leadership is decimated and their infrastructure has been significantly damaged. However, they're yet to exhaust their hand. Many gulf allies of the US get up to 90% of their drinking water from desalination plants. For reasons not entirely clear, Iran has thus far declined to target these plants with ballistic missiles. The likelihood is that they want to maintain some kind of relationship with their neighbouring countries, but it's also conceivable that they are waiting for patriot missile stocks to be depleted enough that desalination plants are left undefended. 
+
+The above basically illustrates how I see the situation with Iran. The US have very few more levers to pull, Iran is under immense pressure but shows no signs of buckling yet and has one more powerful option at its disposal. They also have a history of drawing US presidents into unfavourable situations, hold them there as their domestic political standing is drained away, and then letting the US public eventually vote the problem away. 
+
+So, basically, I think it's unlikely that Brent crude drops much below $100 any time soon. 
+
+### The Debt™ ️(+ Japan)
+
+I realise its very comment-section-economist to make reference to the national debt when discussing the US's economic state, but really what is a blog if not a lost comment section, unmoored and untethered. I also think the US is in a particularly tricky spot with that debt at the moment. 
+
+For the last 9 months, the US Treasury has been neck-deep in one of its biggest foreign currency interventions in history, and it's not working. It co-ordinated with the Bank of Japan to collectively sell approx $100bn dollars worth of USD & EUR to prop up the value of the yen. On each intervention, the market responded, but the rally wasn't sustained and the yen restarted its slump in the weeks & months after. 
+
+This is primarily a problem for the US because Japan is a **massive** invester in a) the American stock market and b) US government bonds. The Japanese government alone holds over $1tn dollars of the latter. Japan also has the highest debt-to-GDP ratio in the world (there's a significant caveat here in that ~97% is held domestically) and is running budget deficits every year. This makes the Japanese econonomy *extremely* sensitive to interest rate changes. 
+
+With this context, the US intervention in the JPY/USD market makes sense. They want to avoid the yen becoming further devalued  because the consequences would (eventually) look something like: 
+- Yen devalued
+- Inflation in Japan
+- Bank of Japan can't control inflation without increasing interest rates (which would bankrupt the government)
+- Choice of massive inflation *OR* **MASSIVE** cuts to government spending
+- Economic disaster either way
+- Pressure on Japanese government/companies/investors
+- Mass sell-off of American stocks/bonds/equities
+- :(
+
+### AI
+
+Before I get stuck in here, I want to be clear that I think LLMs are a genuinely transformational technology. They already have numerous commercially-proven use cases and the advancements do not appear to be slowing down yet. 
+
+However, I do think we are currently in a bubble. Over the last few years, capital deployment  has been unprecidented. AI datacenters continue to be built at an incredible rate, often financed by complex private credit deals made via special-purpose-vehicles (SPVs). 
+
+There's nothing implicitly wrong with these arrangements, but they are concerning on two fronts. First, they keep debt largely off of the companies' balance sheets, which it could be argued is a form of deceptive corporate accounting. Second, since AI investment is so hot right now, many of the private creditors involved accept the bulk of the risk to land the deal. 
+
+That's fine for the fund managers and their bonuses, but many of these companies raise the majority of their capital from institutional investors like pension funds. Their decision to shoulder some of the riskiest deals in the ongoing AI arms race massively broadens the potential fallout of a collapse. 
+
+And a collapse, in my opinion, is absolutely possible. I think for a long team the fear was that models wouldn't become good enough, fast enough. That they would be impressive but only narrowly commercialisable. By now it's clear that LLMs will have a real, measurable and broad impact across most industries. The day-to-day job of a software engineer is totally different to even 2 years ago. AI-enabled tools are transforming (and potentially putting at risk) analyst roles in investment & banking. Customer support as a function is now manned at its front lines by AI agents. 
+
+It's clear now that the models are good enough. And I think that's the problem. 
+
+If you ask people working with LLMs every day when they first started really trusting the models to carry out meaningful tasks end-to-end, many of them will say the release of Anthropic's model `Claude Opus 4.6`. There was a general sense that it was "intelligent" enough to understand and reason about what it needed to do and was also capable of staying on task through dozens of steps. 
+
+Models released since have certainly shown meaningful improvements, but Opus 4.6 seemed to unlock use cases in a way few models released since have done. 
+
+About three weeks ago Alibaba released a model called `Qwen 3.8 Flash Next`. This is how it compares to Opus 4.6 in benchmarks: 
+
+| Benchmark | Qwen3.8 Flash Next | Claude Opus 4.6 (Max) |
+|---|---|---|
+| Input cost (per 1M tokens) | $0.15 | $5 |
+| Output cost (per 1M tokens) | $0.47 | $25 |
+| Throughput | 102 tok/s | 38 tok/s |
+| **Coding** | | |
+| SWE-bench Pro | 62.5 | 53.4 |
+| SWE-bench Multilingual | 81.0 | 77.5 |
+| NL2Repo-Bench | 48.1 | 47.6 |
+| **Agent** | | |
+| CoWorkBench | 73.9 | 68.2 |
+| JobBench | 55.7 | 36.6 |
+| **General** | | |
+| IFBench | 81.3 | 62.5 |
+| GPQA Diamond | 91.7 | 91.3 |
+| HLE | 35.9 | 40.0 |
+| LiveCodeBench v6 | 91.9 | 88.8 |
+| **Agentic Multimodal** | | |
+| ClawEval-MM (Pass@3 / Average) | 64.4 / 60.4 | 52.5 / 54.7 |
+| AndroidWorld | 84.5 | 62.0 |
+| **General Multimodal** | | |
+| ERQA | 72.3 | 40.8 |
+| LVBench | 76.6 | 63.0 |
+| RealWorldQA | 88.5 | 73.9 |
+| MathVision Without CI (With CI not reported for Opus) | 90.6 (95.7) | 65.5 (--) |
+| CharXiv (RQ) Without CI (With CI not reported for Opus) | 84.6 (90.6) | 66.0 (--) |
+
+
+TLDR; it's one hundredth the cost, three times as fast, and trounces it on almost every benchmark. 
+
+I think this is where the real risk to the AI investment hype cycle exists. I would bet that over 90% of most companies AI queries could now be comfortably handled by an open source model for a fraction of the price. In fact, Spotify has already demonstrated something along those lines:
+
+https://engineering.atspotify.com/2026/9/portal-by-spotify-cut-my-claude-code-token-usage-by-90
+
+I also think the above blog post is already dated. The "cheap" model used was Google's `Gemini 2.5 Flash`, which is considerably worse and more expensive than the Qwen model shown above. 
+

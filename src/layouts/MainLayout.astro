@@ -5,13 +5,13 @@ import Footer from '../components/Footer.astro';
 import DotGrid from '../components/DotGrid.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
+const { title = SITE_TITLE, description = SITE_DESCRIPTION, robots } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} robots={robots} />
 		<style>
 			body {
 				display: flex;
