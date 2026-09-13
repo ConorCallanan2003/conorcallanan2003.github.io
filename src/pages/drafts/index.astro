@@ -99,13 +99,13 @@ const draftSlug = (id: string) => id.replace(/^drafts\//, '').replace(/\.mdx?$/,
 				posts.map((post) => (
 					<li class="post-item">
 						{post.data.heroImage && (
-							<a href={`/draft/${draftSlug(post.id)}/`}>
+							<a href={`/drafts/${draftSlug(post.id)}/`}>
 								<img src={post.data.heroImage} alt="" />
 							</a>
 						)}
 						<div class="post-content">
 							<h3>
-								<a href={`/draft/${draftSlug(post.id)}/`}>{post.data.title}</a>
+								<a href={`/drafts/${draftSlug(post.id)}/`}>{post.data.title}</a>
 							</h3>
 							<p>
 								<FormattedDate date={post.data.pubDate} />
